@@ -3,39 +3,105 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use yii\bootstrap\ButtonDropdown;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\search\JadwalSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Jadwals';
+use fedemotta\datatables\DataTables;
+use microinginer\dropDownActionColumn\DropDownActionColumn;
+
+$this->title = 'Jadwal Keberangkatan';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="jadwal-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
     <?php Pjax::begin(); ?>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php  //echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Jadwal', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('<i class="fa fa-plus"></i> Tambah Jadwal Keberangkatan', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+    <div class="box">
+        <div class="box-header">
+            <h3 class="box-title">Tabel Data Jadwal Keberangkatan</h3>
+        </div>
+        <div class="box-body">
+            <?= DataTables::widget([
+                'dataProvider' => $dataProvider,
+                'filterModel' => $searchModel,
+                'columns' => [
+                    ['class' => 'yii\grid\SerialColumn'],
+                    'tanggal',
+                    'waktu',
+                    'asal',
+                    'tujuan',
+                    [
+                        'attribute' => 'kapal_id',
+                        'value' => 'kapal.nama',
+                        'label' => 'Kapal',
+                    ],
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+                    [
+                        'attribute' => 'status',
+                        'format' => 'raw',
+                        'value' => function($data){
+                            return ($data->status == "1") ? '<div class="external-event bg-green"><center>Selesai</center></div>' : '<div class="external-event bg-red"><center>Belum berangkat</center></div>';
+                        }
+                    ],
 
-            'id',
-            'tanggal',
-            'waktu',
-            'asal',
-            'tujuan',
-            //'kapal_id',
-            //'status',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+                    [
+                        'class' => 'yii\grid\ActionColumn',
+                        'template' => '{all}',
+                        'buttons' => [
+                            'all' => function ($url, $model, $key) {
+                                return ButtonDropdown::widget([
+                                    'encodeLabel' => false,
+                                    'label' => '<i class="fa fa-wrench"></i> Action',
+                                    'dropdown' => [
+                                        'encodeLabels' => false,
+                                        'items' => [
+                                            [
+                                                'label' => '<i class="fa fa-eye"></i> View',
+                                                'url' => ['view', 'id' => $key],
+                                            ],
+                                            [
+                                                'label' => '<i class="fa fa-edit"></i> Update',
+                                                'url' => ['update', 'id' => $key],
+                                                'visible' => true,
+                                            ],
+                                            [
+                                                'label' => '<li class="divider"></li>',
+                                            ],
+                                            [
+                                                'label' =>  '<i class="fa fa-trash text-red"></i><span class="text-red"> Delete</span>',
+                                                'linkOptions' => [
+                                                    'data' => [
+                                                        'method' => 'post',
+                                                        'confirm' => 'Are you sure you want to delete this item?',
+                                                    ],
+                                                ],
+                                                'url' => ['delete', 'id' => $key],
+                                                'visible' => true,
+                                            ],
+                                        ],
+                                        'options' => [
+                                            'class' => 'dropdown-menu-right',
+                                        ],
+                                    ],
+                                    'options' => [
+                                        'class' => 'btn-default',
+                                    ],
+                                    'split' => false,
+                                ]);
+                            },
+                        ],
+                    ],
+                    
+                ],
+            ]); ?>
+        </div>
+    </div>
+   
     <?php Pjax::end(); ?>
 </div>

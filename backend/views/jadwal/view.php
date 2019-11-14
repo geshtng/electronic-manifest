@@ -6,15 +6,12 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Jadwal */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Jadwals', 'url' => ['index']];
+$this->title = $model->asal . '-' . $model->tujuan;
+$this->params['breadcrumbs'][] = ['label' => 'Jadwal Keberangkatan', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="jadwal-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Delete', ['delete', 'id' => $model->id], [
@@ -29,13 +26,21 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
             'tanggal',
             'waktu',
             'asal',
             'tujuan',
-            'kapal_id',
-            'status',
+            [
+                'attribute' => 'kapal_id',
+                'value' =>  $model->kapal->nama,
+            ],
+            [
+                'attribute' => 'status',
+                'format' => 'raw',
+                'value' => function($data){
+                    return ($data->status == "1") ? '<small class="external-event bg-green">Selesai</small>' : '<small class="external-event bg-red">Belum berangkat</small>';
+                }
+            ],
         ],
     ]) ?>
 

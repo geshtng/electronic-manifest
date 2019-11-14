@@ -60,6 +60,11 @@
                             ],
                         ],
                     ],
+
+                    ['label' => 'Electronic Manifest', 'options' => ['class' => 'header']],
+                    ['label' => 'Jadwal Keberangkatan', 'icon' => 'calendar', 'url' => ['/jadwal']],
+                    ['label' => 'Kapal', 'icon' => 'ship', 'url' => ['/kapal']],
+                    ['label' => 'Pelabuhan', 'icon' => 'anchor', 'url' => ['/pelabuhan']],
                 ],
             ]
         ) ?>

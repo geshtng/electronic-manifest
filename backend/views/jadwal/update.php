@@ -5,16 +5,13 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Jadwal */
 
-$this->title = 'Update Jadwal: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Jadwals', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
+$this->title = 'Ubah Jadwal Keberangkatan: ' . $model->asal . '-' . $model->tujuan;
+$this->params['breadcrumbs'][] = ['label' => 'Jadwal Keberangkatan', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->asal . '-' . $model->tujuan, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="jadwal-update">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <?= $this->render('_form', [
+    <?= $this->render('_formUpdate', [
         'model' => $model,
     ]) ?>
 
