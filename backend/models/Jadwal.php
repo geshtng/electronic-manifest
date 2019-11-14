@@ -39,6 +39,12 @@ class Jadwal extends \yii\db\ActiveRecord
             [['kapal_id'], 'integer'],
             [['asal', 'tujuan', 'status'], 'string', 'max' => 255],
             [['kapal_id'], 'exist', 'skipOnError' => true, 'targetClass' => Kapal::className(), 'targetAttribute' => ['kapal_id' => 'id']],
+
+            [['tanggal'], 'required', 'message' => 'Tanggal berangkat tidak boleh kosong'],
+            [['waktu'], 'required', 'message' => 'Waktu tidak boleh kosong'],
+            [['asal'], 'required', 'message' => 'Pelabuhan asal tidak boleh kosong'],
+            [['tujuan'], 'required', 'message' => 'Pelabuhan tujuan tidak boleh kosong'],
+            [['kapal_id'], 'required', 'message' => 'Kapal tidak boleh kosong'],
         ];
     }
 

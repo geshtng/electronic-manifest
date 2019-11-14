@@ -65,8 +65,13 @@ class JadwalController extends Controller
     public function actionCreate()
     {
         $model = new Jadwal();
+        
+        $statusSelesai = "1";
+        $statusReady = "0";
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $model->status = $statusReady;
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         }
 

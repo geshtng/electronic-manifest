@@ -5,6 +5,11 @@ use dmstr\widgets\Alert;
 ?>
 <div class="content-wrapper">
     <section class="content-header">
+        <!-- <?php 
+            date_default_timezone_set('Asia/Jakarta');
+            $date = date('l m/d/Y h:i:s a', time());
+            echo "<h5>".$date."</h5><br>";
+        ?> -->
         <?php if (isset($this->blocks['content-header'])) { ?>
             <h1><?= $this->blocks['content-header'] ?></h1>
         <?php } else { ?>
