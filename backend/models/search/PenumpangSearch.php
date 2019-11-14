@@ -71,4 +71,73 @@ class PenumpangSearch extends Penumpang
 
         return $dataProvider;
     }
+
+    public function searchByPosisiPenumpang($params, $jadwal_id)
+    {
+        $query = Penumpang::find()->where(['jadwal_id' => $jadwal_id]);
+
+        // add conditions that should always apply here
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+
+        // grid filtering conditions
+        $query->andFilterWhere([
+            'id' => $this->id,
+            'umur' => $this->umur,
+            'jadwal_id' => $this->jadwal_id,
+        ]);
+
+        $query->andFilterWhere(['like', 'nama', $this->nama])
+            ->andFilterWhere(['like', 'jenis_kelamin', $this->jenis_kelamin])
+            ->andFilterWhere(['like', 'alamat', $this->alamat])
+            ->andFilterWhere(['like', 'no_kendaraan', $this->no_kendaraan])
+            ->andFilterWhere(['like', 'posisi', $this->posisi])
+            ->andFilterWhere(['like', 'posisi', 2]);
+
+        return $dataProvider;
+    }
+
+    public function searchByPosisiKru($params, $jadwal_id)
+    {
+        $query = Penumpang::find()->where(['jadwal_id' => $jadwal_id]);
+
+        // add conditions that should always apply here
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+
+        // grid filtering conditions
+        $query->andFilterWhere([
+            'id' => $this->id,
+            'umur' => $this->umur,
+            'jadwal_id' => $this->jadwal_id,
+        ]);
+
+        $query->andFilterWhere(['like', 'nama', $this->nama])
+            ->andFilterWhere(['like', 'jenis_kelamin', $this->jenis_kelamin])
+            ->andFilterWhere(['like', 'alamat', $this->alamat])
+            ->andFilterWhere(['like', 'no_kendaraan', $this->no_kendaraan])
+            ->andFilterWhere(['in', 'posisi', [0,1]]);
+
+        return $dataProvider;
+    }
 }

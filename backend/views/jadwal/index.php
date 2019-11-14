@@ -62,11 +62,11 @@ $this->params['breadcrumbs'][] = $this->title;
                                         'encodeLabels' => false,
                                         'items' => [
                                             [
-                                                'label' => '<i class="fa fa-eye"></i> View',
+                                                'label' => '<i class="fa fa-eye"></i> Tampilkan detail',
                                                 'url' => ['view', 'id' => $key],
                                             ],
                                             [
-                                                'label' => '<i class="fa fa-edit"></i> Update',
+                                                'label' => '<i class="fa fa-edit"></i> Ubah',
                                                 'url' => ['update', 'id' => $key],
                                                 'visible' => true,
                                             ],
@@ -74,11 +74,11 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 'label' => '<li class="divider"></li>',
                                             ],
                                             [
-                                                'label' =>  '<i class="fa fa-trash text-red"></i><span class="text-red"> Delete</span>',
+                                                'label' =>  '<i class="fa fa-trash text-red"></i><span class="text-red"> Hapus</span>',
                                                 'linkOptions' => [
                                                     'data' => [
                                                         'method' => 'post',
-                                                        'confirm' => 'Are you sure you want to delete this item?',
+                                                        'confirm' => 'Anda yakin ingin menghapus data ini?',
                                                     ],
                                                 ],
                                                 'url' => ['delete', 'id' => $key],
