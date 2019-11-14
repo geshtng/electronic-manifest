@@ -4,7 +4,9 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\Jadwal;
+use backend\models\Penumpang;
 use backend\models\search\JadwalSearch;
+use backend\models\search\PenumpangSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -52,8 +54,24 @@ class JadwalController extends Controller
      */
     public function actionView($id)
     {
+        $searchModelPenumpang = new PenumpangSearch();
+        $dataProviderPenumpang = $searchModelPenumpang->searchByPosisiPenumpang(Yii::$app->request->queryParams, $id);
+        $dataProviderKru = $searchModelPenumpang->searchByPosisiKru(Yii::$app->request->queryParams, $id);
+
+        $modelPenumpang = new Penumpang();
+        
+        if ($modelPenumpang->load(Yii::$app->request->post())) {
+            $modelPenumpang->jadwal_id = $id;
+            $modelPenumpang->save();
+            return $this->redirect(['view', 'id' => $id]);
+        }
+
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'searchModelPenumpang' => $searchModelPenumpang,
+            'dataProviderPenumpang' => $dataProviderPenumpang,
+            'dataProviderKru' => $dataProviderKru,
+            
         ]);
     }
 
