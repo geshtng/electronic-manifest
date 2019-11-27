@@ -26,9 +26,22 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            // 'id',
             'nama',
-            'jenis_kelamin',
+            // 'jenis_kelamin',
+            
+            [
+                'attribute' => 'jenis_kelamin',
+                'value' => function($model){
+                    if($model->jenis_kelamin == 1){
+                        return "laki-laki";
+                    }
+                    else if($model->posisi == 1)
+                        return "perempuan";
+                    else
+                        return "Penumpang";
+                }
+            ],
             'alamat',
             'umur',
             //'no_kendaraan',

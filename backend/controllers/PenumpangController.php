@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\Penumpang;
+use backend\models\Data;
 use backend\models\search\PenumpangSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -65,8 +66,10 @@ class PenumpangController extends Controller
     public function actionCreate()
     {
         $model = new Penumpang();
+        // $data = new Data();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            // echo $model->nama;
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
