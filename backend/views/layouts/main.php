@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use backend\models\petugas;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
