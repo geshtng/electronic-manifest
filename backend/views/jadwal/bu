@@ -1,0 +1,89 @@
+
+    <?php Pjax::begin(); ?>
+    <?php  //echo $this->render('_search', ['model' => $searchModel]); ?>
+
+    <p>
+        <?= Html::a('<i class="fa fa-plus"></i> Tambah Jadwal Keberangkatan', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
+    <div class="box">
+        <div class="box-header">
+            <h3 class="box-title">Tabel Data Jadwal Keberangkatan</h3>
+        </div>
+        <div class="box-body">
+            <?= DataTables::widget([
+                'dataProvider' => $dataProvider,
+                'filterModel' => $searchModel,
+                'columns' => [
+                    ['class' => 'yii\grid\SerialColumn'],
+                    'tanggal',
+                    'waktu',
+                    'asal',
+                    'tujuan',
+                    [
+                        'attribute' => 'kapal_id',
+                        'value' => 'kapal.nama',
+                        'label' => 'Kapal',
+                    ],
+
+                    [
+                        'attribute' => 'status',
+                        'format' => 'raw',
+                        'value' => function($data){
+                            return ($data->status == "1") ? '<div class="external-event bg-green"><center>Selesai</center></div>' : '<div class="external-event bg-red"><center>Belum berangkat</center></div>';
+                        }
+                    ],
+
+                    [
+                        'class' => 'yii\grid\ActionColumn',
+                        'template' => '{all}',
+                        'buttons' => [
+                            'all' => function ($url, $model, $key) {
+                                return ButtonDropdown::widget([
+                                    'encodeLabel' => false,
+                                    'label' => '<i class="fa fa-wrench"></i> Action',
+                                    'dropdown' => [
+                                        'encodeLabels' => false,
+                                        'items' => [
+                                            [
+                                                'label' => '<i class="fa fa-eye"></i> Tampilkan detail',
+                                                'url' => ['view', 'id' => $key],
+                                            ],
+                                            [
+                                                'label' => '<i class="fa fa-edit"></i> Ubah',
+                                                'url' => ['update', 'id' => $key],
+                                                'visible' => true,
+                                            ],
+                                            [
+                                                'label' => '<li class="divider"></li>',
+                                            ],
+                                            [
+                                                'label' =>  '<i class="fa fa-trash text-red"></i><span class="text-red"> Hapus</span>',
+                                                'linkOptions' => [
+                                                    'data' => [
+                                                        'method' => 'post',
+                                                        'confirm' => 'Anda yakin ingin menghapus data ini?',
+                                                    ],
+                                                ],
+                                                'url' => ['delete', 'id' => $key],
+                                                'visible' => true,
+                                            ],
+                                        ],
+                                        'options' => [
+                                            'class' => 'dropdown-menu-right',
+                                        ],
+                                    ],
+                                    'options' => [
+                                        'class' => 'btn-default',
+                                    ],
+                                    'split' => false,
+                                ]);
+                            },
+                        ],
+                    ],
+                    
+                ],
+            ]); ?>
+        </div>
+    </div>
+   
+    <?php Pjax::end(); ?>
