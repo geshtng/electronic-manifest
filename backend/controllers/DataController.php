@@ -3,18 +3,16 @@
 namespace backend\controllers;
 
 use Yii;
-use backend\models\Jadwal;
-use backend\models\Penumpang;
-use backend\models\search\JadwalSearch;
-use backend\models\search\PenumpangSearch;
+use backend\models\Data;
+use backend\models\search\DataSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * JadwalController implements the CRUD actions for Jadwal model.
+ * DataController implements the CRUD actions for Data model.
  */
-class JadwalController extends Controller
+class DataController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -32,12 +30,12 @@ class JadwalController extends Controller
     }
 
     /**
-     * Lists all Jadwal models.
+     * Lists all Data models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new JadwalSearch();
+        $searchModel = new DataSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -46,69 +44,29 @@ class JadwalController extends Controller
         ]);
     }
 
-    
-    public function actionReport()
-    {
-        $model = new jadwal();
-        $searchModel = new JadwalSearch();
-        $jadwal = Jadwal::find()->orderBy(['waktu' => SORT_ASC])->all();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $data = Yii::$app->db->createCommand('select jenis_kelamin, count(id) as jml from penumpang group by jenis_kelamin    ')->queryAll();
-
-        return $this->render('report', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-            'model' => $model,
-            'jadwal' => $jadwal,
-            'dgrafik' => $data
-        ]);
-    }
-
-
     /**
-     * Displays a single Jadwal model.
+     * Displays a single Data model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id)
     {
-        $searchModelPenumpang = new PenumpangSearch();
-        $dataProviderPenumpang = $searchModelPenumpang->searchByPosisiPenumpang(Yii::$app->request->queryParams, $id);
-        $dataProviderKru = $searchModelPenumpang->searchByPosisiKru(Yii::$app->request->queryParams, $id);
-
-        $modelPenumpang = new Penumpang();
-        
-        if ($modelPenumpang->load(Yii::$app->request->post())) {
-            $modelPenumpang->jadwal_id = $id;
-            $modelPenumpang->save();
-            return $this->redirect(['view', 'id' => $id]);
-        }
-
         return $this->render('view', [
             'model' => $this->findModel($id),
-            'searchModelPenumpang' => $searchModelPenumpang,
-            'dataProviderPenumpang' => $dataProviderPenumpang,
-            'dataProviderKru' => $dataProviderKru,
-            
         ]);
     }
 
     /**
-     * Creates a new Jadwal model.
+     * Creates a new Data model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Jadwal();
-        
-        $statusSelesai = "1";
-        $statusReady = "0";
+        $model = new Data();
 
-        if ($model->load(Yii::$app->request->post())) {
-            $model->status = $statusReady;
-            $model->save();
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -118,7 +76,7 @@ class JadwalController extends Controller
     }
 
     /**
-     * Updates an existing Jadwal model.
+     * Updates an existing Data model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -138,7 +96,7 @@ class JadwalController extends Controller
     }
 
     /**
-     * Deletes an existing Jadwal model.
+     * Deletes an existing Data model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -152,15 +110,15 @@ class JadwalController extends Controller
     }
 
     /**
-     * Finds the Jadwal model based on its primary key value.
+     * Finds the Data model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Jadwal the loaded model
+     * @return Data the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Jadwal::findOne($id)) !== null) {
+        if (($model = Data::findOne($id)) !== null) {
             return $model;
         }
 
